@@ -1,24 +1,27 @@
 class Solution {
     public int maxWidthRamp(int[] nums) {
     
-        
-        Stack<Pair<Integer,Integer>> st=new Stack<>();
-        int maxlen=0;
-        for(int i=0;i<nums.length-1;i++){
-            if(st.isEmpty() || nums[i]<st.peek().getValue()){
-                st.add(new Pair(i,nums[i]));
-            }
-        }
+       int maxlen=0;
+       int fleft=0;
+       int sleft=0;
 
-        for(int j=nums.length-1;j>=0;j--){
-            while(!st.isEmpty() && st.peek().getValue()<=nums[j]){
-                if(nums[j]>=st.peek().getValue()){
-                    maxlen=Math.max(maxlen,(j-st.peek().getKey()));
-                    st.pop();
-                }
-            }
-        }
-        return maxlen;
+       int maxArray[]=new int[nums.length];
+        maxArray[nums.length-1]=nums[nums.length-1];
+       for(int i=nums.length-2;i>=0; i--){
+            int maxnum=Math.max(nums[i],maxArray[i+1]);
+            maxArray[i]=maxnum;
+       }
+
+       while(fleft<=nums.length-1 && sleft<=nums.length-1 ){
+            if(nums[fleft]<=maxArray[sleft]){
+                maxlen=Math.max(maxlen,(sleft-fleft));
+                sleft++;
+            }else{
+                fleft++;
+            }   
+       }
+return maxlen;
+
         
     }
 }
