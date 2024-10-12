@@ -1,26 +1,17 @@
 class Solution {
     public int minGroups(int[][] intervals) {
-        int length=intervals.length;
-        int[] arr1=new int[length];
-        int[] arr2=new int[length];
-        for(int i=0; i<length;i++){
-            arr1[i]=intervals[i][0];
-            arr2[i]=intervals[i][1];
+        int[] arr = new int[1000005];
+        int ans=0;
+        for (int i = 0; i < intervals.length; i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            arr[start] = arr[start] + 1;
+            arr[end + 1] = arr[end + 1] - 1;
         }
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
-
-        int count=0;
-        int group=0;
-        for(int i=0;i<arr1.length;i++){
-            if(arr1[i]>arr2[count]){
-                count++;
-            }else{
-                group++;
-            }
+        for(int i=1;i<1000000;i++){
+            arr[i]=arr[i]+arr[i-1];
+            ans=Math.max(ans,arr[i]);
         }
-
-    return group;
-
+        return ans;
     }
 }
