@@ -9,9 +9,11 @@ class Solution {
             }
         }else{
         for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[0].length;j++){
+            for(int j=grid[0].length-1;j>=0;j--){
                 if(grid[i][j]<0){
                     count++;
+                }else{
+                    j=0;
                 }
             }
         }
