@@ -1,18 +1,25 @@
 class Solution {
     public int longestSquareStreak(int[] nums) {
-        Arrays.sort(nums);
-        Map<Integer ,Integer> mp=new HashMap<>();
         int max=-1;
-        for(int num :nums){
-            int sqrt=(int)Math.sqrt(num);
-            if(sqrt*sqrt==num && mp.containsKey(sqrt)){
-                mp.put(num , mp.get(sqrt)+1);
-                max=Math.max(max,mp.get(num));
-            }else{
-                mp.put(num,1);
-            }
+        Set<Integer> st=new HashSet<>();
+
+        for(int num:nums){
+            st.add(num);
         }
 
-        return max;
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++){
+            int curr=nums[i];
+            int count=0;
+
+            while(st.contains(curr)){
+                st.remove(curr);
+                curr*=curr;
+                count++;
+                max=Math.max(max,count);
+
+            }
+        }
+        return max==1? -1 : max;
     }
 }
