@@ -1,28 +1,36 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
-        boolean visi[]=new boolean[isConnected.length];
+
+        Map<Integer, List<Integer>> graph=new HashMap<>();  
+    
+        for (int i = 0; i < isConnected.length; i++) {
+            for (int j = 0; j < isConnected[i].length; j++) {
+                if (isConnected[i][j] == 1) {
+                graph.computeIfAbsent(i, k -> new ArrayList<>()).add(j);
+                }
+            }   
+        }
+        
+        boolean visited[]=new boolean[isConnected.length];
         int count=0;
-        for(int i=0;i<visi.length;i++){
-            if(visi[i]==false){
-                dfs(i, visi , isConnected);
-                count++;
+        for(int i=0 ; i<visited.length ; i++){
+            if(visited[i]==false){
+            dfs(i, graph , visited);
+            count++;
             }
         }
         return count;
     }
 
-    public static void dfs(int start , boolean[] visi , int [][] adj){
-
-        visi[start] = true;
-      
-        for (int i = 0; i < adj[start].length; i++) {
- 
-            // If some node is adjacent to the current node
-            // and it has not already been visited
-            if (adj[start][i] == 1 && (!visi[i])) {
-                dfs(i, visi , adj);
+    private void dfs(int src ,  Map<Integer, List<Integer>> graph , boolean visited[] ){
+        
+        visited[src]=true;
+        for(int adj : graph.getOrDefault(src,  new ArrayList<>())){
+            if(visited[adj]==false){
+                dfs(adj , graph , visited);
             }
         }
-        
+
     }
+
 }
